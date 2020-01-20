@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/admin/layout::head">
+<body>
+<div id="wrapper">
+    <ul th:replace="/admin/layout::sideBar"></ul>
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div th:replace="/admin/layout::navBar"></div>
+        <div class="card-body">
+            <p>
+                <a href="/admin" class="btn btn-facebook">Booking list</a>
+            </p>
+            <div id="validate" class="error"></div>
+            <th:block th:if="${message}">
+                <p th:text="${message}"></p>
+            </th:block>
+            <div class="table-row-cell content">
+                <form th:action="@{/create}" th:object="${bookingDetail}" id="formVinh" method="post">
+                    <table class="table table-bordered">
+                        <tr>
+                            <td>Name:</td>
+                            <td><input type="text" th:field="*{customer.name}" required/></td>
+                            <td>Address:</td>
+                            <td><input type="text" th:field="*{customer.address}" required/></td>
+                        </tr>
+                        <tr>
+                            <td>ID Card:</td>
+                            <td><input type="text" th:field="*{customer.identityCard}" required/></td>
+                            <td>Email :</td>
+                            <td><input type="text" th:field="*{customer.email}" required/></td>
+                        </tr>
+                        <tr>
+                            <td>Check In:</td>
+                            <td><input type="date" id="checkIn" th:field="*{checkInExpected}"/></td>
+                            <td>CheckOut</td>
+                            <td><input type="date" id="checkOut" th:field="*{checkOutExpected}"/></td>
+                        </tr>
+                        <tr>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <div id="typeRooms"></div>
+                            </td>
+                            <td>
+                                <div id="rooms"></div>
+                            </td>
+                            <td>Price</td>
+                            <td>
+                                <div id="price"></div>
+                            </td>
+                        <tr>
+                            <td></td>
+                            <td colspan="3"><input type="submit" onclick=" return validate()" class="btn btn-google"
+                                                   value="Create Booking"></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+<script>
+    var roomIsBooking;
+    roomIsBooking = document.getElementsByName('roomIsBooking').value;
+    var roomIsBooked;
+    var roomIsTypeRoom;
+    var user = user || {};
+    var rooms;
+    var arrayValidate = [];
+    user.roomIsBooked = function (checkIn, checkOut, id) {
+        $.ajax({
+            url: 'http://localhost:8080/rooms/' + checkIn + '/' + checkOut,
+            method: 'GET',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+                $('#rooms').empty();
+                $('#typeRooms').empty();
+                $('#price').empty();
+                $.each(data, function (index, value) {
+                    arrayValidate.push(value.idTypeRoom);
+                    $('#rooms').append("<input type='text' id='room" + value.idTypeRoom + "' name='roomIsBooking' data-rule-range='1," + value.count + "'  placeholder='" + value.count + " Room available' disabled><br>");
+                    $('#typeRooms').append("<input type='checkbox' onclick='hudaChange(" + value.idTypeRoom + ',' + value.price + ")' class='typeRoomId' name='typeRoomId' id='" + value.idTypeRoom + "'value='" + value.idTypeRoom + "'>" + value.name + "<br>");
+                    $('#price').append("<input type='number' id='" + value.price + "' class='price' disabled name='price' placeholder='" + value.price + "'></br>");
+                    // $.each(data, function(index, value){
+                    //     if(index === value.id-1){
+                    //         $('#rooms').append(
+                    //             "<option value='"+value.id+"'>"+value.name+"</option>"
+                    //         )
+                    //     }
+                }) // });
+            }
+        });
+    };
+    user.roomIsTypeRoom = function (id) {
+        $.ajax({
+            url: 'http://localhost:8080/rooms/' + id,
+            method: 'GET',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+                roomIsTypeRoom = data;
+            }
+        });
+    };
+    let count = 0;
+    var a = "";
+    var b = "";
+    setInterval(function () {
+
+        if ((document.getElementById('checkIn').value !== a) && (document.getElementById('checkOut').value !== b)) {
+            user.roomIsBooked(document.getElementById('checkIn').value, document.getElementById('checkOut').value);
+            a = document.getElementById('checkIn').value;
+            b = document.getElementById('checkOut').value;
+        }
+
+    }, 500);
+    validate = function () {
+        if ($('#formVinh').valid()) {
+
+        }
+        let check= false;
+
+        for(let i = 0; i <arrayValidate.length; i++){
+            if(document.getElementById(arrayValidate[i]+"").checked){
+                check = true;
+        }
+            if(!check){
+                document.getElementById('validate').innerHTML = "Please select type room";
+            }
+        }
+
+        if(a<Date.now() || a===Date.now()){
+
+            check=false;
+        }
+        if (a > b) {
+            document.getElementById('validate').innerHTML = "Check out should bigger check in";
+            check =false;
+        }
+            return check;
+    };
+    hudaChange = function (idCheckBox, idPrice) {
+        let idRoom = '#room' + idCheckBox;
+        idCheckBox = '#' + idCheckBox;
+        idPrice = '#' + idPrice;
+
+
+        if ($(idCheckBox).is(":checked")) {
+            $(idPrice).prop('disabled', '');
+            $(idPrice).prop('required', 'true');
+            $(idRoom).prop('disabled', '');
+            $(idRoom).prop('required', 'true');
+        } else {
+            $(idPrice).prop('disabled', 'disabled');
+            $(idPrice).prop('required', 'false');
+            $(idRoom).prop('disabled', 'disabled');
+            $(idRoom).prop('required', 'false');
+        }
+    }
+</script>
+<th:block th:replace="/admin/layout::script"></th:block>
+</html>

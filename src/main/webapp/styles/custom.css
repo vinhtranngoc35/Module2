@@ -1,0 +1,11 @@
+.modal-dialog {
+    max-width: 900px !important;
+}
+
+.col-4, .col-6, .col-7, .col-8 {
+    float: left;
+}
+
+.col-6 {
+    margin-bottom: 10px;
+}

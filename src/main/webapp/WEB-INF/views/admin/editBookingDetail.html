@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/admin/layout::head">
+<body>
+
+<h1>Edit Room</h1>
+<div id="wrapper">
+    <ul th:replace="/admin/layout::sideBar"></ul>
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div th:replace="/admin/layout::navBar"></div>
+        <div class="card-body">
+
+            </p>
+            <th:block th:if="${message}">
+                <p th:text="${message}"></p>
+            </th:block>
+            <form th:action="@{/edit-booking}" th:object="${bookingToDay}" method="post">
+                <input th:type="hidden" name="id" th:field="*{id}">
+
+                <table>
+                    <tr>
+                        <td>Name:</td>
+                        <td><input type="text" th:field="*{customer.name}" required/></td>
+                    </tr>
+                    <tr>
+                        <td>Address:</td>
+                        <td><input type="text" th:field="*{customer.address}" required/></td>
+                    </tr>
+                    <tr>
+                        <td>ID Card:</td>
+                        <td><input type="text" th:field="*{customer.identityCard}" required/></td>
+                    </tr>
+                    <tr>
+                        <td>Email :</td>
+                        <td><input type="text" th:field="*{customer.email}"/></td>
+                    </tr>
+                    <tr>
+                        <td>Check In:</td>
+                        <td><input type="date" id="checkIn" th:field="*{checkInExpected}" required/></td>
+                    </tr>
+                    <tr>
+                        <td>CheckOut</td>
+                        <td><input type="date" id="checkOut" th:field="*{checkOutExpected}" required/></td>
+                    </tr>
+                    <tr>
+                        <td>TypeRoom:</td>
+                        <td><input type="text" id="typeRoom" th:field="*{room.typeRoom.name}" required/></td>
+                    </tr>
+                    <tr>
+                        <td>Price:</td>
+                        <td><input type="text" id="price" th:field="*{price}" required/></td>
+                    </tr>
+                    <tr>
+                        <td>Room</td>
+                        <td><select name="room">
+                            <option th:each="r : ${rooms}"
+                                    th:value="${r.id}"
+                                    th:text="${r.name}"
+                                    th:selected="(${r.id} == *{room.id})"></option>
+                        </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="submit" onclick="return validateOffEdit();" value="Update province"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    user.roomIsTypeRoom = function (checkIn, checkOut, id) {
+        $.ajax({
+            url: 'http://localhost:8080/rooms/' + checkIn + '/' + checkOut + '/' + id,
+            method: 'GET',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+
+            }
+        });
+    };
+    validateOffEdit = function () {
+        var checkIn = document.getElementById('checkIn').value;
+        var checkOut = document.getElementById('checkOut').value;
+        if (checkIn > checkOut) {
+            alert("checkOut should bigger checkIn")
+        }
+        return checkOut > checkIn;
+    }
+</script>
+<th:block th:replace="/admin/layout::script"></th:block>
+</html>

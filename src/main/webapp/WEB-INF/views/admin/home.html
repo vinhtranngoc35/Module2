@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="/admin/layout::head">
+
+
+</head>
+
+<body id="page-top">
+
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+    <ul th:replace="/admin/layout::sideBar"></ul>
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div th:replace="/admin/layout::navBar"></div>
+
+    <!-- Sidebar -->
+    <!-- End of Sidebar -->
+    <!-- Content Wrapper -->
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+                <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For
+                    more information about DataTables, please visit the <a target="_blank"
+                                                                           href="https://datatables.net">official
+                        DataTables documentation</a>.</p>
+
+                <!-- DataTales Example -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <a href="/create" class="btn btn-info">
+                            Create</a>
+                        <a href="/admin/room" class="btn btn-facebook">
+                            Rooms</a>
+<!--                        <form id="frmAddEditUser" th:action="@{/create}" th:object="${bookingDetail}">-->
+<!--                        <div id="addEditUser" class="modal fade" role="dialog">-->
+<!--                            <div class="modal-dialog">-->
+
+<!--                                method="post">-->
+<!--                                &lt;!&ndash; Modal content&ndash;&gt;-->
+<!--                                <div class="modal-content">-->
+<!--                                    <div class="modal-header">-->
+<!--                                        <h4 class="modal-title">Create New Booking</h4>-->
+<!--                                        <button type="button" class="close" data-dismiss="modal">&times;</button>-->
+<!--                                    </div>-->
+<!--                                    <div class="modal-body">-->
+<!--                                        <h5 style="color: #1cc88a">Customer</h5>-->
+
+<!--                                        <th class="col-12">-->
+<!--                                            <div class="col-6">-->
+<!--                                                <div class="form-group">-->
+<!--                                                    <div class="col-4">-->
+<!--                                                        <label>Name:</label>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="col-7">-->
+<!--                                                        <input type="text" th:field="*{customer.name}"-->
+
+<!--                                                               class="form-control">-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-6">-->
+<!--                                                <div class="form-group">-->
+<!--                                                    <div class="col-4">-->
+<!--                                                        <label>Address:</label>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="col-7">-->
+<!--                                                        <input type="text" th:field="*{customer.address}"-->
+
+<!--                                                               class="form-control">-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-6">-->
+<!--                                                <div class="form-group">-->
+<!--                                                    <div class="col-4">-->
+<!--                                                        <label>Email:</label>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="col-7">-->
+<!--                                                        <input type="text" th:field="*{customer.email}"-->
+<!--                                                               class="form-control">-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-6">-->
+<!--                                                <div class="form-group">-->
+<!--                                                    <div class="col-4">-->
+<!--                                                        <label>ID Card:</label>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="col-7">-->
+<!--                                                        <input type="text" th:field="*{customer.identityCard}"-->
+<!--                                                               class="form-control">-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+
+<!--                                            <h5 style="color: #1cc88a">Booking</h5>-->
+<!--                                            <div class="col-6">-->
+<!--                                                <div class="form-group">-->
+<!--                                                    <div class="col-4">-->
+<!--                                                        <label>Check In</label>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="col-7">-->
+<!--                                                        <input type="date" th:field="*{checkInExpected}"-->
+<!--                                                               id="checkIn"-->
+<!--                                                               class="form-control">-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-6">-->
+<!--                                                <div class="form-group">-->
+<!--                                                    <div class="col-4" style="float: left;">-->
+<!--                                                        <label>Check Out</label>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="col-7">-->
+<!--                                                        <input type="date" th:field="*{checkOutExpected}"-->
+<!--                                                               onclick="changeRoom()" id="checkOut"-->
+<!--                                                               class="form-control">-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-6">-->
+<!--                                                <div class="form-group">-->
+<!--                                                    <div class="col-4">-->
+<!--                                                        <label>Type Room</label>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="col-7">-->
+<!--                                                        <label>Room</label>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-6">-->
+<!--                                                <div class="form-group">-->
+<!--                                                    <div class="col-4">-->
+<!--                                                        <label>Price</label>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="col-7">-->
+<!--                                                        <input type="text" id="price" name="price"-->
+<!--                                                               class="form-control">-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-6">-->
+<!--                                                <div class="form-group">-->
+<!--                                                    <div class="col-4">-->
+<!--                                                        <div id="typeRoom"></div>-->
+<!--                                                    </div>-->
+<!--                                                    <div id="rooms" class="col-7"></div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                    </div>-->
+<!--                                    <input type="submit" class="btn btn-danger" value="Save">-->
+<!--                                </div>-->
+<!--                                <div class="modal-footer">-->
+
+<!--                                    <button type="button" class="btn btn-info" data-dismiss="modal">Close-->
+<!--                                    </button>-->
+<!--                                </div>-->
+<!--                        </form>-->
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>Check In</th>
+                                <th>Check Out</th>
+                                <th>Name Customer</th>
+                                <th>Room</th>
+                                <th>Type Room</th>
+
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>Check In</th>
+                                <th>Check Out</th>
+                                <th>Name Customer</th>
+                                <th>Room</th>
+                                <th>Type Room</th>
+                            </tr>
+                            </tfoot>
+                            <tbody id="bookings">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+                <span>Copyright &copy; Your Website 2019</span>
+            </div>
+        </div>
+    </footer>
+    <!-- End of Footer -->
+
+</div>
+<!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" href="login.html">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="/admin/layout::script"></th:block>
+<script>
+    drawTable = function () {
+        $.ajax({
+            url: 'http://localhost:8080/bookings/',
+            method: 'GET',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+                $('#bookings').empty();
+                $.each(data, function (index, value) {
+                    $('#bookings').append(
+                        "<tr><td>" + value.checkIn + "</td><td>" + value.checkOut + "</td><td>" + value.bookingDetailSet[0].customer.name + "</td><td>" + value.bookingDetailSet[0].room.name + "</td><td>" + value.bookingDetailSet[0].room.typeRoom.name + "</td></tr>"
+                    );
+                    // $.each(data, function(index, value){
+                    //     if(index === value.id-1){
+                    //         $('#rooms').append(
+                    //             "<option value='"+value.id+"'>"+value.name+"</option>"
+                    //         )
+                    //     }
+                }) // });
+            }
+        });
+    };
+    $(document).ready(function () {
+        drawTable();
+    });
+    var roomIsBooking;
+    roomIsBooking = document.getElementsByName('roomIsBooking').value;
+    var roomIsBooked;
+    var roomIsTypeRoom;
+    var user = user || {};
+    var rooms;
+    user.roomIsBooked = function (checkIn, checkOut, id) {
+        $.ajax({
+            url: 'http://localhost:8080/rooms/' + checkIn + '/' + checkOut,
+            method: 'GET',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+                $('#rooms').empty();
+                $('#typeRoom').empty();
+                $.each(data, function (index, value) {
+                    $('#rooms').append("<input type='text' class='form-control' name='roomIsBooking'  placeholder='" + value.count + " available'><br>");
+                    $('#typeRoom').append("<label><input  type='checkbox' name='typeRoomId' value='" + value.idTypeRoom + "'>" + value.name + "</label>");
+                    // $.each(data, function(index, value){
+                    //     if(index === value.id-1){
+                    //         $('#rooms').append(
+                    //             "<option value='"+value.id+"'>"+value.name+"</option>"
+                    //         )
+                    //     }
+                }) // });
+            }
+        });
+    };
+    user.roomIsTypeRoom = function (id) {
+        $.ajax({
+            url: 'http://localhost:8080/rooms/' + id,
+            method: 'GET',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+                roomIsTypeRoom = data;
+            }
+        });
+    };
+    changeRoom = function (id) {
+        user.roomIsBooked(document.getElementById('checkIn').value, document.getElementById('checkOut').value, id);
+
+    }
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/af.js"></script>
+</body>
+</html>

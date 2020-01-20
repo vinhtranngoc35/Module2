@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/admin/layout::head">
+<body>
+<div id="wrapper">
+    <ul th:replace="/admin/layout::sideBar"></ul>
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div th:replace="/admin/layout::navBar"></div>
+        <div class="card-body">
+            <table class="form-control">
+                <tr>
+                    <td th:text="${booking.checkIn}"></td>
+                    <td th:text="${booking.checkOut}"></td>
+                </tr>
+                <tr>
+                    <th:block th:each="bd : ${booking.getBookingDetailSet()}">
+                        <td><a class="btn btn-info" th:href="@{/edit-booking/__${bd.room.id}__ }" th:text="${'Room: '+bd.room.name+' Type Room: '+bd.room.typeRoom.name}"></a></td>
+                    </th:block>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

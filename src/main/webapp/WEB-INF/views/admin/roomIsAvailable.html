@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/admin/layout::head">
+<body>
+
+<div id="wrapper">
+    <ul th:replace="/admin/layout::sideBar"></ul>
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div th:replace="/admin/layout::navBar"></div>
+    <div class="card-body">
+
+
+        <h1>Room</h1>
+        <a href="/admin" class="btn btn-info">
+            Home</a>
+        <table class="table-row-cell content">
+            <th:block th:each="r : ${rooms}">
+                <th:block th:if="${r.status}">
+                    <td><a class="btn btn-info" th:href="@{/edit-booking/__${r.id}__ }" th:text="${r.name}"></a></td>
+                </th:block>
+                <th:block th:unless="${r.status}">
+                    <td><a class="btn btn-danger" th:href="@{/edit-booking/__${r.id}__ }" th:text="${r.name}"></a></td>
+                </th:block>
+            </th:block>
+        </table>
+    </div>
+    </div>
+</div>
+
+</body>
+<script>
+    user.roomIsTypeRoom = function (checkIn, checkOut, id) {
+        $.ajax({
+            url: 'http://localhost:8080/rooms/' + checkIn + '/' + checkOut + '/' + id,
+            method: 'GET',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+
+            }
+        });
+    };
+</script>
+<th:block th:replace="/admin/layout::script"></th:block>
+</html>

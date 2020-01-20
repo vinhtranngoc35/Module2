@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/admin/layout::head">
+<body>
+<div id="wrapper">
+    <ul th:replace="/admin/layout::sideBar"></ul>
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div th:replace="/admin/layout::navBar"></div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12">
+                    <table class="table-row-cell content">
+                        <thead>
+                        <tr style="font-weight: bold; font-size: large;color: #bd2130">
+                            <th>Type Room</th>
+                            <th>Number Day Stay</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                        </tr>
+                        </thead>
+                        <th:block th:each="bd : ${booking.bookingDetailSet}">
+                            <tr>
+                                <td th:text="${bd.room.typeRoom.name}"></td>
+                                <td th:text="${bd.numberDate}"></td>
+                                <td th:text="${bd.price}"></td>
+                                <td th:text="${bd.total}"></td>
+                            </tr>
+                        </th:block>
+                        <thead>
+                        <tr style="font-weight: bold; font-size: large;color: #bd2130">
+                            <td>Product</td>
+                            <td>Price</td>
+                            <td>Quantity</td>
+                            <td>Total</td>
+                        </tr>
+                        </thead>
+                        <th:block th:each="billD : ${bill.billDetailSet}">
+                            <tr>
+                                <td th:text="${billD.product.name}">
+                                </td>
+                                <td th:text="${billD.price}"></td>
+                                <td th:text="${billD.quantity}"></td>
+                                <td th:text="${billD.total}"></td>
+                            </tr>
+                        </th:block>
+                        <tfoot>
+                        <tr style="font-weight: bold; font-size: large;color: #bd2130">
+                            <th colspan="3">Total</th>
+                            <th th:text="${bill.total}"></th>
+                        </tr>
+                        <th:block th:if="${message}">
+                            <tr>
+                                <td><a class="btn btn-danger" th:href="@{/pay/__${bill.idBill}__ }">Pay</a></td>
+                            </tr>
+                        </th:block>
+                        </tfoot>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<th:block th:replace="/admin/layout::script"></th:block>
+</html>

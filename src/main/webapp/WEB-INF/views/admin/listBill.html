@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/admin/layout::head">
+<body>
+<div id="wrapper">
+    <ul th:replace="/admin/layout::sideBar"></ul>
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div th:replace="/admin/layout::navBar"></div>
+        <div class="card-body">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" border="1" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Number Room</th>
+                            <th>Price Of Room</th>
+                            <th>Extra</th>
+                            <th>Total</th>
+                            <th>View</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>Id</th>
+                            <th>Number Room</th>
+                            <th>Price Of Room</th>
+                            <th>Extra</th>
+                            <th>Total</th>
+                            <th>View</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+
+                        <th:block th:each="b : ${bills}">
+                            <tr>
+                                <td th:text="${b.idBill}"></td>
+                                <td th:text="${b.numberRoom}"></td>
+                                <td th:text="${b.priceRoom}"></td>
+                                <td th:text="${b.extra}"></td>
+                                <td th:text="${b.total}"></td>
+                                <td><a th:href="@{/view/__${b.idBill}__ }">View</a></td>
+                            </tr>
+                        </th:block>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+<th:block th:replace="/admin/layout::script"></th:block>
+<script>
+    // drawThangPhuc = function () {
+    //     $.ajax({
+    //         url: 'http://localhost:8080/bookingOfToDay/',
+    //         method: 'GET',
+    //         dataType: 'json',
+    //         contentType: 'application/json',
+    //         success: function (data) {
+    //             $('#bookingToDay').empty();
+    //             $.each(data, function (index, value) {
+    //                 $('#bookingToDay').append(
+    //                     "<tr><td>" + value.checkIn + "</td><td>" + value.checkOut + "</td><td>" + value.bookingDetailSet[0].customer.name + "</td><td>" + value.bookingDetailSet[0].customer.identityCard + "</td><td>" + value.bookingDetailSet[0].room.typeRoom.name + "</td><td>"+ value.bookingDetailSet[0].room.name+"</td><td><a class='btn btn-light' href='bookingToday/"+value.id+"'>CheckOut</a> "+"</td></tr>"
+    //                 );
+    //                 // $.each(data, function(index, value){
+    //                 //     if(index === value.id-1){
+    //                 //         $('#rooms').append(
+    //                 //             "<option value='"+value.id+"'>"+value.name+"</option>"
+    //                 //         )
+    //                 //     }
+    //             }) // });
+    //         }
+    //     });
+    // };
+    // $(document).ready(function () {
+    //     drawThangPhuc();
+    //     $('#dataTable').DataTable();
+    // });
+</script>
+</html>

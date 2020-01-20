@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/admin/layout::head">
+<body>
+<div id="wrapper">
+    <ul th:replace="/admin/layout::sideBar"></ul>
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div th:replace="/admin/layout::navBar"></div>
+        <div class="card-body">
+            <form th:action="@{/create-bill}" method="post">
+                <input th:type="hidden" name="idBill" th:value="${bill.idBill}">
+<!--                <input th:type="hidden" name="idBill" th:field="*{bill.idBill}">-->
+                <div class="card-body col-12">
+                    <div class="row">
+                        <div class="col-7">
+                            <table class="table table-bordered" width="100%" cellspacing="0">
+                                <th:block th:each="b : ${booking.getBookingDetailSet()}">
+                                    <tr>
+                                        <td>Customer Name</td>
+                                        <td th:text="${b.customer.name}"></td>
+                                        <td>Customer Id</td>
+                                        <td th:text="${b.customer.identityCard}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Check In:</td>
+                                        <td th:text="${b.checkInExpected}"></td>
+                                        <td>Check Out:</td>
+                                        <td th:text="${b.checkOut}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Type Room:</td>
+                                        <td th:text="${b.room.typeRoom.name}"></td>
+                                        <td>Room:</td>
+                                        <td th:text="${b.room.name}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Price:</td>
+                                        <td th:text="${b.price}"></td>
+                                        <td>Number Day Stay:</td>
+                                        <td th:text="${b.numberDate}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-weight:bold;color: #bd2130">Total:</td>
+                                        <td style="font-weight:bold;color: #bd2130" colspan="3"
+                                            th:text="${b.total}"></td>
+                                    </tr>
+                                </th:block>
+                                <tr>
+                                    <td style="font-weight:bold;color: #bd2130">Total Money:</td>
+                                    <td colspan="3" style="font-weight:bold;color: #bd2130"
+                                        th:text="${booking.total}"></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-5">
+                            <table>
+
+                                <tr>
+                                    <th>
+                                        Product
+                                    </th>
+                                    <th>
+                                        Quantity Product
+                                    </th>
+                                </tr>
+                                <form>
+                                <th:block th:each="p : ${products}">
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" th:value="${p.getId()}" th:id="${p.id}" name="products" onclick=" return validate(this.value)"><span
+                                                th:text="${p.name}"></span>
+                                        </td>
+                                        <td>
+                                            <input type="number" th:placeholder="${p.price}" th:id="quantity+${p.id}" name="quantity" disabled>
+                                        </td>
+                                    </tr>
+                                </th:block>
+                                <input type="submit" onclick=" return validateForm();" value="Create Bill">
+                                </form>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+</div>
+
+</body>
+<th:block th:replace="/admin/layout::script"></th:block>
+<script>
+    let
+    drawTable = function () {
+        $.ajax({
+            url: 'http://localhost:8080/bookingToDay/',
+            method: 'GET',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+                $('#bookings').empty();
+                $.each(data, function (index, value) {
+                    $('#bookings').append(
+                        "<tr><td>" + value.checkIn + "</td><td>" + value.checkOut + "</td><td>" + value.bookingDetailSet[0].customer.name + "</td><td>" + value.bookingDetailSet[0].room.name + "</td><td>" + value.bookingDetailSet[0].room.typeRoom.name + "</td></tr>"
+                    );
+                    // $.each(data, function(index, value){
+                    //     if(index === value.id-1){
+                    //         $('#rooms').append(
+                    //             "<option value='"+value.id+"'>"+value.name+"</option>"
+                    //         )
+                    //     }
+                }) // });
+            }
+        });
+    };
+    $(document).ready(function () {
+        drawTable();
+        $('#dataTable').DataTable();
+    });
+    let validate = function (id) {
+        let idQuantity = '#quantity'+id;
+        id = '#'+id;
+
+
+        if ($(id).is(":checked")) {
+            $(idQuantity).prop('disabled', '');
+            $(idQuantity).prop('required', 'true');
+        } else {
+            $(idQuantity).prop('disabled', 'disabled');
+            $(idQuantity).prop('required', 'false');
+        }
+    }
+    let validateForm = function () {
+        let allow = false;
+        $.each($("input[name='products']"), function(i, v){
+            allow = allow || v.checked;
+        });
+        return allow;
+    }
+
+</script>
+</html>
