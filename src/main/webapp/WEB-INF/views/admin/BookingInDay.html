@@ -14,18 +14,20 @@
                     <div class="row">
                         <div class="col-7">
                             <table class="table table-bordered" width="100%" cellspacing="0">
-                                <th:block th:each="b : ${booking.getBookingDetailSet()}">
+                                <th:block th:each="b : ${bill.getBooking().getBookingDetailSet()}">
+                                    <th:block th:each="c:${b.getCustomers()}">
                                     <tr>
                                         <td>Customer Name</td>
-                                        <td th:text="${b.customer.name}"></td>
+                                        <td th:text="${c.name}"></td>
                                         <td>Customer Id</td>
-                                        <td th:text="${b.customer.identityCard}"></td>
+                                        <td th:text="${c.identityCard}"></td>
                                     </tr>
+                                    </th:block>
                                     <tr>
                                         <td>Check In:</td>
                                         <td th:text="${b.checkInExpected}"></td>
                                         <td>Check Out:</td>
-                                        <td th:text="${b.checkOut}"></td>
+                                        <td th:text="${b.checkOutExpected}"></td>
                                     </tr>
                                     <tr>
                                         <td>Type Room:</td>
@@ -48,7 +50,7 @@
                                 <tr>
                                     <td style="font-weight:bold;color: #bd2130">Total Money:</td>
                                     <td colspan="3" style="font-weight:bold;color: #bd2130"
-                                        th:text="${booking.total}"></td>
+                                        th:text="${bill.getBooking().total}"></td>
                                 </tr>
                             </table>
                         </div>

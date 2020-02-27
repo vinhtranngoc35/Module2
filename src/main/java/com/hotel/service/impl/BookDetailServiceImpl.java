@@ -7,6 +7,7 @@ import com.hotel.service.BookingDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Date;
+import java.util.List;
 
 public class BookDetailServiceImpl implements BookingDetailService {
     @Autowired
@@ -39,5 +40,10 @@ public class BookDetailServiceImpl implements BookingDetailService {
     @Override
     public BookingDetail findBookingToday(Date checkIn, Date checkOut, Long id) {
         return bookingDetailRepository.findBookingToday(checkIn,checkOut,id);
+    }
+
+    @Override
+    public List<BookingDetail> findIdBigger() {
+        return bookingDetailRepository.findIdBigger();
     }
 }

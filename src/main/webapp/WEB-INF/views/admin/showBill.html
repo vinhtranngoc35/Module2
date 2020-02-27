@@ -11,7 +11,18 @@
                 <div class="col-12">
                     <table class="table-row-cell content">
                         <thead>
+                        <tr><th>Name</th>
+                            <th th:text="${booking.getCustomer().name}"></th>
+                            ><th>Address</th>
+                            <th th:text="${booking.getCustomer().address}"></th>
+                        </tr>
+                        <tr><th>Email</th>
+                            <th th:text="${booking.getCustomer().email}"></th>
+                            <th>Id</th>
+                            <th th:text="${booking.getCustomer().identityCard}"></th>
+                        </tr>
                         <tr style="font-weight: bold; font-size: large;color: #bd2130">
+
                             <th>Type Room</th>
                             <th>Number Day Stay</th>
                             <th>Price</th>

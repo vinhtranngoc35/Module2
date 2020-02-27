@@ -34,9 +34,9 @@ public class Customer {
         this.email = email;
     }
 
-    @OneToMany(mappedBy = "customer",cascade = {CascadeType.ALL})
-    @JsonIgnore
-    private Set<BookingDetail> bookingDetailSet;
+    @ManyToOne
+    @JoinColumn(name = "bookingDetail_id")
+    private BookingDetail bookingDetail;
 
     public Set<Booking> getBookingSet() {
         return bookingSet;
@@ -49,24 +49,27 @@ public class Customer {
     @OneToMany(mappedBy = "customer",cascade = {CascadeType.ALL})
     @JsonIgnore
     private Set<Booking> bookingSet;
-    public Set<BookingDetail> getBookingDetailSet() {
-        return bookingDetailSet;
+
+
+    public BookingDetail getBookingDetail() {
+        return bookingDetail;
     }
 
-    public void setBookingDetailSet(Set<BookingDetail> bookingDetailSet) {
-        this.bookingDetailSet = bookingDetailSet;
+    public void setBookingDetail(BookingDetail bookingDetail) {
+        this.bookingDetail = bookingDetail;
     }
 
-
-    public Customer(String identityCard, String name, Set<BookingDetail> bookingDetailSet) {
+    public Customer(String identityCard, String name, BookingDetail bookingDetailSet) {
         this.identityCard = identityCard;
         this.name = name;
-        this.bookingDetailSet = bookingDetailSet;
+        this.bookingDetail = bookingDetailSet;
     }
 
-    public Customer(String identityCard, String name) {
+    public Customer(String identityCard, String name,String email,String address) {
         this.identityCard = identityCard;
         this.name = name;
+        this.email = email;
+        this.address = address;
     }
 
     public Customer() {

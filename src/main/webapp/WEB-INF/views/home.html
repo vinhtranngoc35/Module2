@@ -36,7 +36,7 @@
                         <li><a href="contact.html">Contact</a></li>
                     </ul>
                 </nav>
-                <div class="book_button"><a href="bookingDetail.html">Book Online</a></div>
+                <div class="book_button"><a href="#" onclick="user.openAddEditUser()">Book Online</a></div>
                 <div class="header_phone d-flex flex-row align-items-center justify-content-center">
                     <img src="/images/phone.png" alt="">
                     <span>0183-12345678</span>
@@ -79,429 +79,547 @@
             <div class="owl-carousel owl-theme home_slider">
 
                 <!-- Slide -->
-                <div class="slide">
-                    <div class="background_image"><img class="background_image" src="https://r-cf.bstatic.com/images/hotel/max1024x768/119/119146722.jpg"></div>
-                    <div class="home_container">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col">
-                                    <div class="home_content text-center">
-                                        <div class="home_title">A Luxury Stay</div>
-                                        <div class="booking_form_container">
-<!--                                            <form th:action="@{/create-bookingDetail}" class="booking_form" th:object="${bookingDetail}" method="post">-->
-<!--                                                <div class="d-flex flex-xl-row flex-column align-items-start justify-content-start">-->
-<!--                                                    <div class="booking_input_container d-flex flex-lg-row flex-column align-items-start justify-content-start">-->
-<!--                                                        <div><input type="date" th:fied="*{checkInExpected}" class="date-picker-popup booking_input booking_input_a booking_in" placeholder="Check in" required="required" ></div>-->
-<!--                                                        <div><input type="date" th:fied="*{checkOutExpected}" class="date-picker-popup booking_input booking_input_a booking_out" placeholder="Check out" required="required"></div>-->
-<!--                                                        <div><input type="number" class="booking_input booking_input_b" placeholder="Children" required="required"></div>-->
-<!--                                                        <div><select name="room" id="typeRoom" class="booking_input booking_input_b" onclick="changePrice(this)">-->
-<!--                                                            <option th:each="room : ${listRoom}"-->
-<!--                                                                    th:value="${room.id}" th:data-price="${room.price}"-->
-<!--                                                                    th:text="${room.name}"></option>-->
-<!--                                                        </select></div>-->
-<!--                                                    </div>-->
-<!--                                                    <div><button class="booking_button trans_200">Book Now</button></div>-->
-<!--                                                </div>-->
-<!--                                            </form>-->
-<!--                                            <div><h2 style="color: red;" th:text="${message}"></h2></div>-->
+                <th:block th:each="typeRoom : ${typeRooms}">
+                    <div class="slide">
+                        <div class="background_image"><img th:src="${typeRoom.imageBig}"></div>
+                        <div class="home_container">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="home_content text-center">
+                                            <div class="home_title">A Luxury Stay</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-<!--                &lt;!&ndash; Slide &ndash;&gt;-->
-<!--                <div class="slide">-->
-<!--                    <div class="background_image" style="background-image:url(images/index_1.jpg)"></div>-->
-<!--                    <div class="home_container">-->
-<!--                        <div class="container">-->
-<!--                            <div class="row">-->
-<!--                                <div class="col">-->
-<!--                                    <div class="home_content text-center">-->
-<!--                                        <div class="home_title">A Luxury Stay</div>-->
-<!--                                        <div class="booking_form_container">-->
-<!--                                            <form action="#" class="booking_form">-->
-<!--                                                <div class="d-flex flex-xl-row flex-column align-items-start justify-content-start">-->
-<!--                                                    <div class="booking_input_container d-flex flex-lg-row flex-column align-items-start justify-content-start">-->
-<!--                                                        <div><input type="text" class="datepicker booking_input booking_input_a booking_in" placeholder="Check in" required="required"></div>-->
-<!--                                                        <div><input type="text" class="datepicker booking_input booking_input_a booking_out" placeholder="Check out" required="required"></div>-->
-<!--                                                        <div><input type="number" class="booking_input booking_input_b" placeholder="Children" required="required"></div>-->
-<!--                                                        <div><select name="room" class="booking_input booking_input_b">-->
-<!--                                                            <option th:each="room : ${rooms}"-->
-<!--                                                                    th:value="${room.id}"-->
-<!--                                                                    th:text="${room.name}"></option>-->
-<!--                                                        </select></div>-->
-<!--                                                    </div>-->
-<!--                                                    <div><button class="booking_button trans_200">Book Now</button></div>-->
-<!--                                                </div>-->
-<!--                                            </form>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-                <!-- Slide -->
-                <div class="slide">
-                    <div class="background_image" style="background-image:url(images/index_1.jpg)"></div>
-                    <div class="home_container">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col">
-                                    <div class="home_content text-center">
-                                        <div class="home_title">A Luxury Stay</div>
-                                        <div class="booking_form_container">
-                                            <form action="#" class="booking_form">
-                                                <div class="d-flex flex-xl-row flex-column align-items-start justify-content-start">
-                                                    <div class="booking_input_container d-flex flex-lg-row flex-column align-items-start justify-content-start">
-                                                        <div><input type="text" class="datepicker booking_input booking_input_a booking_in" placeholder="Check in" required="required"></div>
-                                                        <div><input type="text" class="datepicker booking_input booking_input_a booking_out" placeholder="Check out" required="required"></div>
-                                                        <div><input type="number" class="booking_input booking_input_b" placeholder="Children" required="required"></div>
-                                                        <div><select name="room" class="booking_input booking_input_b">
-                                                            <option th:each="room : ${rooms}"
-                                                                    th:value="${room.id}"
-                                                                    th:text="${room.name}"></option>
-                                                        </select></div>
-                                                    </div>
-                                                    <div><button class="booking_button trans_200">Book Now</button></div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Home Slider Dots -->
-            <div class="home_slider_dots_container">
-                <div class="home_slider_dots">
-                    <ul id="home_slider_custom_dots" class="home_slider_custom_dots d-flex flex-row align-items-start justify-content-start">
-                        <li class="home_slider_custom_dot active">01.</li>
-                        <li class="home_slider_custom_dot">02.</li>
-                        <li class="home_slider_custom_dot">03.</li>
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- Features -->
-
-    <div class="features">
-        <div class="container">
-            <div class="row">
-
-                <!-- Icon Box -->
-                <div class="col-lg-4 icon_box_col">
-                    <div class="icon_box d-flex flex-column align-items-center justify-content-start text-center">
-                        <div class="icon_box_icon"><img src="images/icon_1.svg" class="svg" alt="https://www.flaticon.com/authors/monkik"></div>
-                        <div class="icon_box_title"><h2>Fabulous Resort</h2></div>
-                        <div class="icon_box_text">
-                            <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse nec faucibus velit. Quisque eleifend orci ipsum, a bibendum.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Icon Box -->
-                <div class="col-lg-4 icon_box_col">
-                    <div class="icon_box d-flex flex-column align-items-center justify-content-start text-center">
-                        <div class="icon_box_icon"><img src="images/icon_2.svg" class="svg" alt="https://www.flaticon.com/authors/monkik"></div>
-                        <div class="icon_box_title"><h2>Infinity Pool</h2></div>
-                        <div class="icon_box_text">
-                            <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse nec faucibus velit. Quisque eleifend orci ipsum, a bibendum.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Icon Box -->
-                <div class="col-lg-4 icon_box_col">
-                    <div class="icon_box d-flex flex-column align-items-center justify-content-start text-center">
-                        <div class="icon_box_icon"><img src="images/icon_3.svg" class="svg" alt="https://www.flaticon.com/authors/monkik"></div>
-                        <div class="icon_box_title"><h2>Luxury Rooms</h2></div>
-                        <div class="icon_box_text">
-                            <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse nec faucibus velit. Quisque eleifend orci ipsum, a bibendum.</p>
-                        </div>
-                    </div>
-                </div>
-
+                </th:block>
             </div>
         </div>
     </div>
 
-    <!-- Gallery -->
-
-    <div class="gallery">
-        <div class="gallery_slider_container">
-            <div class="owl-carousel owl-theme gallery_slider">
-
-                <!-- Slide -->
-                <div class="gallery_item">
-                    <div class="background_image"><img src="https://r-cf.bstatic.com/images/hotel/max1024x768/205/205453308.jpg" class="background_image"></div>
-                    <a class="colorbox" href="images/gallery_1.jpg"></a>
-                </div>
-
-                <!-- Slide -->
-                <div class="gallery_item">
-                    <div class="background_image"><img src="https://q-cf.bstatic.com/images/hotel/max1024x768/205/205321046.jpg" class="background_image"></div>
-                    <a class="colorbox" href="images/gallery_2.jpg"></a>
-                </div>
-
-                <!-- Slide -->
-                <div class="gallery_item">
-                    <div class="background_image"><img src="https://q-cf.bstatic.com/images/hotel/max1024x768/205/205252145.jpg" class="background_image"></div>
-                    <a class="colorbox" href="images/gallery_3.jpg"></a>
-                </div>
-
-                <!-- Slide -->
-                <div class="gallery_item">
-                    <div class="background_image"><img src="https://q-cf.bstatic.com/images/hotel/max1024x768/205/205252534.jpg" class="background_image"></div>
-                    <a class="colorbox" href="images/gallery_4.jpg"></a>
-                </div>
-
-            </div>
+    <!-- Home Slider Dots -->
+    <div class="home_slider_dots_container">
+        <div class="home_slider_dots">
+            <ul id="home_slider_custom_dots"
+                class="home_slider_custom_dots d-flex flex-row align-items-start justify-content-start">
+                <li class="home_slider_custom_dot active">01.</li>
+                <li class="home_slider_custom_dot">02.</li>
+                <li class="home_slider_custom_dot">03.</li>
+            </ul>
         </div>
     </div>
 
-    <!-- About -->
-
-    <div class="about">
-        <div class="container">
-            <div class="row">
-
-                <!-- About Content -->
-                <div class="col-lg-6">
-                    <div class="about_content">
-                        <div class="about_title"><h2>The River / 10 years of excellence</h2></div>
-                        <div class="about_text">
-                            <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse nec faucibus velit. Quisque eleifend orci ipsum, a bibendum lacus suscipit sit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse nec faucibus velit. Quisque eleifend orci ipsum, a bibendum lacus suscipit sit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse nec faucibus velit.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- About Images -->
-                <div class="col-lg-6">
-                    <div class="about_images d-flex flex-row align-items-center justify-content-between flex-wrap">
-                        <img src="images/about_1.png" alt="">
-                        <img src="images/about_2.png" alt="">
-                        <img src="images/about_3.png" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Testimonials -->
-
-    <div class="testimonials">
-        <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="images/testimonials.jpg" data-speed="0.8"></div>
-        <div class="testimonials_overlay"></div>
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <div class="testimonials_slider_container">
-
-                        <!-- Testimonials Slider -->
-                        <div class="owl-carousel owl-theme test_slider">
-
-                            <!-- Slide -->
-                            <div  class="test_slider_item text-center">
-                                <div class="rating rating_5 d-flex flex-row align-items-start justify-content-center"><i></i><i></i><i></i><i></i><i></i></div>
-                                <div class="testimonial_title"><a href="#">Perfect Stay</a></div>
-                                <div class="testimonial_text">
-                                    <p>Etiam nec odio vestibulum est mattis effic iturut magna. Pellentesque sit amet tellus blandit. Etiam nec odio vestibulum est mattis effic.</p>
-                                </div>
-                                <div class="testimonial_image"><img src="images/user_1.jpg" alt=""></div>
-                                <div class="testimonial_author"><a href="#">Samantha Smith</a>, Greece</div>
-                            </div>
-
-                            <!-- Slide -->
-                            <div  class="test_slider_item text-center">
-                                <div class="rating rating_5 d-flex flex-row align-items-start justify-content-center"><i></i><i></i><i></i><i></i><i></i></div>
-                                <div class="testimonial_title"><a href="#">Nice place</a></div>
-                                <div class="testimonial_text">
-                                    <p>Etiam nec odio vestibulum est mattis effic iturut magna. Pellentesque sit amet tellus blandit. Etiam nec odio vestibulum est mattis effic.</p>
-                                </div>
-                                <div class="testimonial_image"><img src="images/user_2.jpg" alt=""></div>
-                                <div class="testimonial_author"><a href="#">Michael Doe</a>, Italy</div>
-                            </div>
-
-                            <!-- Slide -->
-                            <div  class="test_slider_item text-center">
-                                <div class="rating rating_5 d-flex flex-row align-items-start justify-content-center"><i></i><i></i><i></i><i></i><i></i></div>
-                                <div class="testimonial_title"><a href="#">We loved it</a></div>
-                                <div class="testimonial_text">
-                                    <p>Etiam nec odio vestibulum est mattis effic iturut magna. Pellentesque sit amet tellus blandit. Etiam nec odio vestibulum est mattis effic.</p>
-                                </div>
-                                <div class="testimonial_image"><img src="images/user_3.jpg" alt=""></div>
-                                <div class="testimonial_author"><a href="#">Luis Garcia</a>, Spain</div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Booking -->
-
-    <div class="booking">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <div class="booking_title text-center"><h2>Book a room</h2></div>
-                    <div class="booking_text text-center">
-                        <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse nec faucibus velit. Quisque eleifend orci ipsum, a bibendum lacus suscipit sit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse nec faucibus velit. Quisque eleifend orci ipsum, a bibendum lacus suscipit sit.</p>
-                    </div>
-
-                    <!-- Booking Slider -->
-<!--                    <th:block th:each="room : ${listRoom}">-->
-<!--                        <p><img th:src="${room.img}" alt=""></p>-->
-<!--                        <p th:text="${room.price}"></p>-->
-<!--                    </th:block>-->
-
-                    <div class="booking_slider_container">
-                        <div class="owl-carousel owl-theme booking_slider">
-
-                            <!-- Slide -->
-                            <th:block th:each="room : ${listRoom}">
-                            <div class="booking_item">
-
-                                <div class="background_image"><img th:src="${room.imageBig}" class="background_image"></div>
-<!--                                <div class="booking_overlay trans_200"></div>-->
-                                <div class="booking_price"><p th:text="${room.price.toString()+'$'}"></p></div>
-<!--                                <div class="booking_price"><p>120000000</p></div>-->
-                                <div class="booking_link"><a href="#" th:text="${room.name}"></a></div>
-                            </div>
-                            </th:block>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- Blog -->
-
-    <div class="blog">
-
-        <!-- Blog Slider -->
-        <div class="blog_slider_container">
-            <div class="owl-carousel owl-theme blog_slider">
-
-                <!-- Slide -->
-                <div class="blog_slide">
-                    <div class="background_image" style="background-image:url(images/index_blog_1.jpg)"></div>
-                    <div class="blog_content">
-                        <div class="blog_date"><a href="#">Oct 20, 2018</a></div>
-                        <div class="blog_title"><a href="#">How to book your stay</a></div>
-                    </div>
-                </div>
-
-                <!-- Slide -->
-                <div class="blog_slide">
-                    <div class="background_image" style="background-image:url(images/index_blog_2.jpg)"></div>
-                    <div class="blog_content">
-                        <div class="blog_date"><a href="#">Oct 20, 2018</a></div>
-                        <div class="blog_title"><a href="#">10 restaurants in town</a></div>
-                    </div>
-                </div>
-
-                <!-- Slide -->
-                <div class="blog_slide">
-                    <div class="background_image" style="background-image:url(images/index_blog_3.jpg)"></div>
-                    <div class="blog_content">
-                        <div class="blog_date"><a href="#">Oct 20, 2018</a></div>
-                        <div class="blog_title"><a href="#">A perfect wedding</a></div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-
-    <footer class="footer">
-        <div class="footer_content">
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <div class="footer_logo_container text-center">
-                            <div class="footer_logo">
-                                <a href="#"></a>
-                                <div>The River</div>
-                                <div>since 1945</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row footer_row">
-
-                    <!-- Address -->
-                    <div class="col-lg-3">
-                        <div class="footer_title">Our Address</div>
-                        <div class="footer_list">
-                            <ul>
-                                <li>Beach Str. 345</li>
-                                <li>67559 Miami</li>
-                                <li>USA</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Reservations -->
-                    <div class="col-lg-3">
-                        <div class="footer_title">Reservations</div>
-                        <div class="footer_list">
-                            <ul>
-                                <li>Tel: 345 5667 889</li>
-                                <li>Fax; 6783 4567 889</li>
-                                <li>reservations@hotelriver.com</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Newsletter -->
-                    <div class="col-lg-3">
-                        <div class="footer_title">Newsletter</div>
-                        <div class="newsletter_container">
-                            <form action="#" class="newsletter_form" id="newsletter_form">
-                                <input type="email" class="newsletter_input" placeholder="Your email address" required="required">
-                                <button class="newsletter_button">Subscribe</button>
-                            </form>
-                        </div>
-                    </div>
-
-                    <!-- Footer images -->
-                    <div class="col-lg-3">
-                        <div class="certificates d-flex flex-row align-items-start justify-content-lg-between justify-content-start flex-lg-nowrap flex-wrap">
-                            <div class="cert"><img src="images/cert_1.png" alt=""></div>
-                            <div class="cert"><img src="images/cert_2.png" alt=""></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="copyright">
-            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-        </div>
-    </footer>
+</div>
 </div>
 
+<!-- Features -->
+
+<div class="features">
+    <div class="container">
+        <div class="row">
+
+            <!-- Icon Box -->
+            <div class="col-lg-4 icon_box_col">
+                <div class="icon_box d-flex flex-column align-items-center justify-content-start text-center">
+                    <div class="icon_box_icon"><img src="images/icon_1.svg" class="svg"
+                                                    alt="https://www.flaticon.com/authors/monkik"></div>
+                    <div class="icon_box_title"><h2>Fabulous Resort</h2></div>
+                    <div class="icon_box_text">
+                        <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
+                            Suspendisse nec faucibus velit. Quisque eleifend orci ipsum, a bibendum.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Icon Box -->
+            <div class="col-lg-4 icon_box_col">
+                <div class="icon_box d-flex flex-column align-items-center justify-content-start text-center">
+                    <div class="icon_box_icon"><img src="images/icon_2.svg" class="svg"
+                                                    alt="https://www.flaticon.com/authors/monkik"></div>
+                    <div class="icon_box_title"><h2>Infinity Pool</h2></div>
+                    <div class="icon_box_text">
+                        <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
+                            Suspendisse nec faucibus velit. Quisque eleifend orci ipsum, a bibendum.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Icon Box -->
+            <div class="col-lg-4 icon_box_col">
+                <div class="icon_box d-flex flex-column align-items-center justify-content-start text-center">
+                    <div class="icon_box_icon"><img src="images/icon_3.svg" class="svg"
+                                                    alt="https://www.flaticon.com/authors/monkik"></div>
+                    <div class="icon_box_title"><h2>Luxury Rooms</h2></div>
+                    <div class="icon_box_text">
+                        <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
+                            Suspendisse nec faucibus velit. Quisque eleifend orci ipsum, a bibendum.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Gallery -->
+
+<div class="gallery">
+    <div class="gallery_slider_container">
+        <div class="owl-carousel owl-theme gallery_slider">
+
+            <!-- Slide -->
+            <div class="gallery_item">
+                <div class="background_image"><img
+                        src="https://r-cf.bstatic.com/images/hotel/max1024x768/205/205453308.jpg"
+                        class="background_image"></div>
+                <a class="colorbox" href="images/gallery_1.jpg"></a>
+            </div>
+
+            <!-- Slide -->
+            <div class="gallery_item">
+                <div class="background_image"><img
+                        src="https://q-cf.bstatic.com/images/hotel/max1024x768/205/205321046.jpg"
+                        class="background_image"></div>
+                <a class="colorbox" href="images/gallery_2.jpg"></a>
+            </div>
+
+            <!-- Slide -->
+            <div class="gallery_item">
+                <div class="background_image"><img
+                        src="https://q-cf.bstatic.com/images/hotel/max1024x768/205/205252145.jpg"
+                        class="background_image"></div>
+                <a class="colorbox" href="images/gallery_3.jpg"></a>
+            </div>
+
+            <!-- Slide -->
+            <div class="gallery_item">
+                <div class="background_image"><img
+                        src="https://q-cf.bstatic.com/images/hotel/max1024x768/205/205252534.jpg"
+                        class="background_image"></div>
+                <a class="colorbox" href="images/gallery_4.jpg"></a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- About -->
+
+<div class="about">
+    <div class="container">
+        <div class="row">
+
+            <!-- About Content -->
+            <div class="col-lg-6">
+                <div class="about_content">
+                    <div class="about_title"><h2>The River / 10 years of excellence</h2></div>
+                    <div class="about_text">
+                        <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
+                            Suspendisse nec faucibus velit. Quisque eleifend orci ipsum, a bibendum lacus suscipit sit.
+                            Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
+                            Suspendisse nec faucibus velit. Quisque eleifend orci ipsum, a bibendum lacus suscipit sit.
+                            Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
+                            Suspendisse nec faucibus velit.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About Images -->
+            <div class="col-lg-6">
+                <div class="about_images d-flex flex-row align-items-center justify-content-between flex-wrap">
+                    <img src="images/about_1.png" alt="">
+                    <img src="images/about_2.png" alt="">
+                    <img src="images/about_3.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Testimonials -->
+
+<div class="testimonials">
+    <div class="parallax_background parallax-window" data-parallax="scroll" data-image-src="images/testimonials.jpg"
+         data-speed="0.8"></div>
+    <div class="testimonials_overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="testimonials_slider_container">
+
+                    <!-- Testimonials Slider -->
+                    <div class="owl-carousel owl-theme test_slider">
+
+                        <!-- Slide -->
+                        <div class="test_slider_item text-center">
+                            <div class="rating rating_5 d-flex flex-row align-items-start justify-content-center">
+                                <i></i><i></i><i></i><i></i><i></i></div>
+                            <div class="testimonial_title"><a href="#">Perfect Stay</a></div>
+                            <div class="testimonial_text">
+                                <p>Etiam nec odio vestibulum est mattis effic iturut magna. Pellentesque sit amet tellus
+                                    blandit. Etiam nec odio vestibulum est mattis effic.</p>
+                            </div>
+                            <div class="testimonial_image"><img src="images/user_1.jpg" alt=""></div>
+                            <div class="testimonial_author"><a href="#">Samantha Smith</a>, Greece</div>
+                        </div>
+
+                        <!-- Slide -->
+                        <div class="test_slider_item text-center">
+                            <div class="rating rating_5 d-flex flex-row align-items-start justify-content-center">
+                                <i></i><i></i><i></i><i></i><i></i></div>
+                            <div class="testimonial_title"><a href="#">Nice place</a></div>
+                            <div class="testimonial_text">
+                                <p>Etiam nec odio vestibulum est mattis effic iturut magna. Pellentesque sit amet tellus
+                                    blandit. Etiam nec odio vestibulum est mattis effic.</p>
+                            </div>
+                            <div class="testimonial_image"><img src="images/user_2.jpg" alt=""></div>
+                            <div class="testimonial_author"><a href="#">Michael Doe</a>, Italy</div>
+                        </div>
+
+                        <!-- Slide -->
+                        <div class="test_slider_item text-center">
+                            <div class="rating rating_5 d-flex flex-row align-items-start justify-content-center">
+                                <i></i><i></i><i></i><i></i><i></i></div>
+                            <div class="testimonial_title"><a href="#">We loved it</a></div>
+                            <div class="testimonial_text">
+                                <p>Etiam nec odio vestibulum est mattis effic iturut magna. Pellentesque sit amet tellus
+                                    blandit. Etiam nec odio vestibulum est mattis effic.</p>
+                            </div>
+                            <div class="testimonial_image"><img src="images/user_3.jpg" alt=""></div>
+                            <div class="testimonial_author"><a href="#">Luis Garcia</a>, Spain</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Booking -->
+
+<div class="booking">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="booking_title text-center"><h2>Book a room</h2></div>
+                <div class="booking_text text-center">
+                    <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
+                        Suspendisse nec faucibus velit. Quisque eleifend orci ipsum, a bibendum lacus suscipit sit.
+                        Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
+                        Suspendisse nec faucibus velit. Quisque eleifend orci ipsum, a bibendum lacus suscipit sit.</p>
+                </div>
+
+                <!-- Booking Slider -->
+                <!--                    <th:block th:each="room : ${listRoom}">-->
+                <!--                        <p><img th:src="${room.img}" alt=""></p>-->
+                <!--                        <p th:text="${room.price}"></p>-->
+                <!--                    </th:block>-->
+
+                <div class="booking_slider_container">
+                    <div class="owl-carousel owl-theme booking_slider">
+
+
+                        <!-- Slide -->
+                        <th:block th:each="room : ${listRoom}">
+                            <div class="booking_item">
+
+                                <div class="background_image"><img th:src="${room.imageBig}" class="background_image">
+                                </div>
+                                <!--                                <div class="booking_overlay trans_200"></div>-->
+                                <div class="booking_price"><p th:text="${room.price.toString()+'$'}"></p></div>
+                                <!--                                <div class="booking_price"><p>120000000</p></div>-->
+                                <div class="booking_link"><a th:href="${'home/'+room.id}" th:text="${room.name}"></a>
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Blog -->
+
+<div class="blog">
+
+    <!-- Blog Slider -->
+    <div class="blog_slider_container">
+        <div class="owl-carousel owl-theme blog_slider">
+
+            <!-- Slide -->
+            <div class="blog_slide">
+                <div class="background_image" style="background-image:url(images/index_blog_1.jpg)"></div>
+                <div class="blog_content">
+                    <div class="blog_date"><a href="#">Oct 20, 2018</a></div>
+                    <div class="blog_title"><a href="#">How to book your stay</a></div>
+                </div>
+            </div>
+
+            <!-- Slide -->
+            <div class="blog_slide">
+                <div class="background_image" style="background-image:url(images/index_blog_2.jpg)"></div>
+                <div class="blog_content">
+                    <div class="blog_date"><a href="#">Oct 20, 2018</a></div>
+                    <div class="blog_title"><a href="#">10 restaurants in town</a></div>
+                </div>
+            </div>
+
+            <!-- Slide -->
+            <div class="blog_slide">
+                <div class="background_image" style="background-image:url(images/index_blog_3.jpg)"></div>
+                <div class="blog_content">
+                    <div class="blog_date"><a href="#">Oct 20, 2018</a></div>
+                    <div class="blog_title"><a href="#">A perfect wedding</a></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+
+<footer class="footer">
+    <div class="footer_content">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="footer_logo_container text-center">
+                        <div class="footer_logo">
+                            <a href="#"></a>
+                            <div>The River</div>
+                            <div>since 1945</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row footer_row">
+
+                <!-- Address -->
+                <div class="col-lg-3">
+                    <div class="footer_title">Our Address</div>
+                    <div class="footer_list">
+                        <ul>
+                            <li>Beach Str. 345</li>
+                            <li>67559 Miami</li>
+                            <li>USA</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Reservations -->
+                <div class="col-lg-3">
+                    <div class="footer_title">Reservations</div>
+                    <div class="footer_list">
+                        <ul>
+                            <li>Tel: 345 5667 889</li>
+                            <li>Fax; 6783 4567 889</li>
+                            <li>reservations@hotelriver.com</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="col-lg-3">
+                    <div class="footer_title">Newsletter</div>
+                    <div class="newsletter_container">
+                        <form action="#" class="newsletter_form" id="newsletter_form">
+                            <input type="email" class="newsletter_input" placeholder="Your email address"
+                                   required="required">
+                            <button class="newsletter_button">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Footer images -->
+                <div class="col-lg-3">
+                    <div class="certificates d-flex flex-row align-items-start justify-content-lg-between justify-content-start flex-lg-nowrap flex-wrap">
+                        <div class="cert"><img src="images/cert_1.png" alt=""></div>
+                        <div class="cert"><img src="images/cert_2.png" alt=""></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="addEditUser" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="table-row-cell content">
+                <div class="modal-content">
+                    <div class="modal-header"><h3>Create Booking</h3></div>
+                    <form th:action="@{/create}" th:object="${bookingDetail}" id="formVinh" method="post">
+                        <table class="table table-bordered">
+                            <input name="check" value="1" type="hidden">
+                            <div class="modal-body">
+                                <tr>
+                                    <td>Name:</td>
+                                    <td><input type="text" th:field="*{customer.name}" required/></td>
+                                    <td>Address:</td>
+                                    <td><input type="text" th:field="*{customer.address}" required/></td>
+                                </tr>
+                                <tr>
+                                    <td>ID Card:</td>
+                                    <td><input type="text" th:field="*{customer.identityCard}" required/></td>
+                                    <td>Email :</td>
+                                    <td><input type="text" th:field="*{customer.email}" required/></td>
+                                </tr>
+                                <tr>
+                                    <td>Check In:</td>
+                                    <td><input type="date" id="checkIn" th:field="*{checkInExpected}"/></td>
+                                    <td>CheckOut</td>
+                                    <td><input type="date" id="checkOut" th:field="*{checkOutExpected}"/></td>
+                                </tr>
+                                <tr>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div id="typeRooms"></div>
+                                    </td>
+                                    <td>
+                                        <div id="rooms"></div>
+                                    </td>
+                                    <td>Price</td>
+                                    <td>
+                                        <div id="price"></div>
+                                    </td>
+                                </tr>
+                            </div>
+                            <div class="modal-footer">
+                                <tr>
+                                    <td>
+                                        <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                                    </td>
+                                    <td colspan="3"><input type="submit" onclick=" return validate()"
+                                                           class="btn btn-danger"
+                                                           value="Create Booking"></td>
+                                </tr>
+                            </div>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copyright">
+        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+        Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+        All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a
+            href="https://colorlib.com" target="_blank">Colorlib</a>
+        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+    </div>
+</footer>
+</div>
+<script>
+    var user = {};
+    user.openAddEditUser = function () {
+        $('#addEditUser').modal('show');
+    };
+    var roomIsBooking;
+    roomIsBooking = document.getElementsByName('roomIsBooking').value;
+    var roomIsBooked;
+    var roomIsTypeRoom;
+    var user = user || {};
+    var rooms;
+    var arrayValidate = [];
+    user.roomIsBooked = function (checkIn, checkOut, id) {
+        $.ajax({
+            url: 'http://localhost:8080/rooms/' + checkIn + '/' + checkOut,
+            method: 'GET',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+                $('#rooms').empty();
+                $('#typeRooms').empty();
+                $('#price').empty();
+                $.each(data, function (index, value) {
+                    arrayValidate.push(value.idTypeRoom);
+                    $('#rooms').append("<input type='text' id='room" + value.idTypeRoom + "' name='roomIsBooking' data-rule-range='1," + value.count + "'  placeholder='" + value.count + " Room available' disabled><br>");
+                    $('#typeRooms').append("<input type='checkbox' onclick='hudaChange(" + value.idTypeRoom + ',' + value.price + ")' class='typeRoomId' name='typeRoomId' id='" + value.idTypeRoom + "'value='" + value.idTypeRoom + "'>" + value.name + "<br>");
+                    $('#price').append("<input type='number' id='" + value.price + "' class='price' disabled name='price' placeholder='" + value.price + "'></br>");
+                    // $.each(data, function(index, value){
+                    //     if(index === value.id-1){
+                    //         $('#rooms').append(
+                    //             "<option value='"+value.id+"'>"+value.name+"</option>"
+                    //         )
+                    //     }
+                }) // });
+            }
+        });
+    };
+    user.roomIsTypeRoom = function (id) {
+        $.ajax({
+            url: 'http://localhost:8080/rooms/' + id,
+            method: 'GET',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+                roomIsTypeRoom = data;
+            }
+        });
+    };
+    let count = 0;
+    var a = "";
+    var b = "";
+    setInterval(function () {
+
+        if ((document.getElementById('checkIn').value !== a) && (document.getElementById('checkOut').value !== b)) {
+            user.roomIsBooked(document.getElementById('checkIn').value, document.getElementById('checkOut').value);
+            a = document.getElementById('checkIn').value;
+            b = document.getElementById('checkOut').value;
+        }
+
+    }, 500);
+    validate = function () {
+        if ($('#formVinh').valid()) {
+
+        }
+        let check = false;
+
+        for (let i = 0; i < arrayValidate.length; i++) {
+            if (document.getElementById(arrayValidate[i] + "").checked) {
+                check = true;
+            }
+            if (!check) {
+                document.getElementById('validate').innerHTML = "Please select type room";
+            }
+        }
+
+        if (a < Date.now()) {
+
+            check = false;
+            document.getElementById('validate').innerHTML = "Check in should bigger now";
+        }
+        if (document.getElementById('checkIn').value > document.getElementById('checkOut').value) {
+            document.getElementById('validate').innerHTML = "Check out should bigger check in";
+            check = false;
+        }
+        return check;
+    };
+    hudaChange = function (idCheckBox, idPrice) {
+        let idRoom = '#room' + idCheckBox;
+        idCheckBox = '#' + idCheckBox;
+        idPrice = '#' + idPrice;
+
+
+        if ($(idCheckBox).is(":checked")) {
+            $(idPrice).prop('disabled', '');
+            $(idPrice).prop('required', 'true');
+            $(idRoom).prop('disabled', '');
+            $(idRoom).prop('required', 'true');
+        } else {
+            $(idPrice).prop('disabled', 'disabled');
+            $(idPrice).prop('required', 'false');
+            $(idRoom).prop('disabled', 'disabled');
+            $(idRoom).prop('required', 'false');
+        }
+    }
+</script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="styles/bootstrap-4.1.2/popper.js"></script>
 <script src="styles/bootstrap-4.1.2/bootstrap.min.js"></script>

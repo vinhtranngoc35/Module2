@@ -1,5 +1,6 @@
 package com.hotel.service.impl;
 
+import com.hotel.model.BookingDetail;
 import com.hotel.model.Customer;
 import com.hotel.repository.CustomerRepository;
 import com.hotel.service.CustomerService;
@@ -35,4 +36,15 @@ public class CustomerServiceImpl implements CustomerService {
     public List<Customer> findAllByQuery() {
         return customerRepository.findAllByQuery();
     }
+
+    @Override
+    public void updateDetailByQuery(Long bookingDetailId, Long customerId) {
+        customerRepository.updateDetailByQuery(bookingDetailId,customerId);
+    }
+
+    @Override
+    public List<Customer> findByBookingDetail(BookingDetail bookingDetail) {
+        return customerRepository.findByBookingDetail(bookingDetail);
+    }
+
 }

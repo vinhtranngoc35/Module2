@@ -98,8 +98,7 @@ public class Booking {
     @OneToMany(mappedBy = "booking",cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
     private Set<BookingDetail> bookingDetailSet;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "bill_id")
+    @OneToOne(mappedBy ="booking",cascade = {CascadeType.ALL})
     private Bill bill;
 
     public Booking(Set<BookingDetail> bookingDetails, Bill bill) {
@@ -121,7 +120,6 @@ public class Booking {
         this.id = id;
     }
 
-    @JsonManagedReference
     public Set<BookingDetail> getBookingDetailSet() {
         return bookingDetailSet;
     }

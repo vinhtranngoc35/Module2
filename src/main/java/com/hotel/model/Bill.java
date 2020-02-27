@@ -70,20 +70,21 @@ public class Bill {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @OneToMany(mappedBy = "bill",fetch = FetchType.EAGER)
-    private Set<Booking> bookingSet;
+    @OneToOne(cascade = {CascadeType.ALL})
+    @MapsId
+    private Booking booking;
 
-    public Bill(Set<Booking> bookingSet, Set<BillDetail> billDetailSet) {
-        this.bookingSet = bookingSet;
-        this.billDetailSet = billDetailSet;
+    public Bill(Booking booking) {
+
+        this.booking = booking;
     }
 
-    public Set<Booking> getBookingSet() {
-        return bookingSet;
+    public Booking getBooking() {
+        return booking;
     }
 
-    public void setBookingSet(Set<Booking> bookingSet) {
-        this.bookingSet = bookingSet;
+    public void setBooking(Booking booking) {
+        this.booking = booking;
     }
 
     @OneToMany(mappedBy = "bill",fetch = FetchType.EAGER)

@@ -17,17 +17,18 @@
             <div class="table-row-cell content">
                 <form th:action="@{/create}" th:object="${bookingDetail}" id="formVinh" method="post">
                     <table class="table table-bordered">
+                        <input name="check" value="0" type="hidden">
                         <tr>
                             <td>Name:</td>
-                            <td><input type="text" th:field="*{customer.name}" required/></td>
+                            <td><input type="text" name="name" required/></td>
                             <td>Address:</td>
-                            <td><input type="text" th:field="*{customer.address}" required/></td>
+                            <td><input type="text" name="address" required/></td>
                         </tr>
                         <tr>
                             <td>ID Card:</td>
-                            <td><input type="text" th:field="*{customer.identityCard}" required/></td>
+                            <td><input type="text" name="identityCard" required/></td>
                             <td>Email :</td>
-                            <td><input type="text" th:field="*{customer.email}" required/></td>
+                            <td><input type="text" name="email" required/></td>
                         </tr>
                         <tr>
                             <td>Check In:</td>
@@ -35,6 +36,7 @@
                             <td>CheckOut</td>
                             <td><input type="date" id="checkOut" th:field="*{checkOutExpected}"/></td>
                         </tr>
+                        </th:block>
                         <tr>
 
                         </tr>
@@ -137,11 +139,12 @@
             }
         }
 
-        if(a<Date.now() || a===Date.now()){
+        if(a < Date.now()){
 
             check=false;
+            document.getElementById('validate').innerHTML = "Check in should bigger now";
         }
-        if (a > b) {
+        if (document.getElementById('checkIn').value > document.getElementById('checkOut').value ) {
             document.getElementById('validate').innerHTML = "Check out should bigger check in";
             check =false;
         }

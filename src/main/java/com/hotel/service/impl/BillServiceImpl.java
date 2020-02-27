@@ -1,6 +1,7 @@
 package com.hotel.service.impl;
 
 import com.hotel.model.Bill;
+import com.hotel.model.Booking;
 import com.hotel.repository.BillRepository;
 import com.hotel.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +34,15 @@ public class BillServiceImpl implements BillService {
     @Override
     public List<Bill> findBillBigger() {
         return billRepository.findBillBigger();
+    }
+
+    @Override
+    public void saveBillQuery(Long id,Long idCustomer) {
+        billRepository.saveBillQuery(id,idCustomer);
+    }
+
+    @Override
+    public Bill findBillByBooking(Booking booking) {
+        return billRepository.findBillByBooking(booking);
     }
 }

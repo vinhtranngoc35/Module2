@@ -16,7 +16,7 @@
         <table class="table-row-cell content">
             <th:block th:each="r : ${rooms}">
                 <th:block th:if="${r.status}">
-                    <td><a class="btn btn-info" th:href="@{/edit-booking/__${r.id}__ }" th:text="${r.name}"></a></td>
+                    <td><a class="btn btn-info" href="#" th:text="${r.name}"></a></td>
                 </th:block>
                 <th:block th:unless="${r.status}">
                     <td><a class="btn btn-danger" th:href="@{/edit-booking/__${r.id}__ }" th:text="${r.name}"></a></td>

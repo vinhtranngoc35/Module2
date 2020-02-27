@@ -43,6 +43,8 @@ public class HomeController {
         ModelAndView modelAndView = new ModelAndView("home", "listRoom", listRoom);
         modelAndView.addObject("rooms", roomService.findAll());
         modelAndView.addObject("booking", new BookingDetail());
+        modelAndView.addObject("typeRooms",typeRoomService.findAll());
+        modelAndView.addObject("bookingDetail", new BookingDetail(new Customer()));
         return modelAndView;
     }
 
@@ -81,11 +83,10 @@ public class HomeController {
     }
 
     @PostMapping("/create")
-    public ModelAndView createBookingEmployee(@ModelAttribute("bookingDetail") BookingDetail bookingDetail, @RequestParam("roomIsBooking") List<String> roomIsBooking, @RequestParam("typeRoomId")List<String> typeRoomId, @RequestParam("price")List<String> price) {
+    public ModelAndView createBookingEmployee(@ModelAttribute("bookingDetail") BookingDetail bookingDetail, @RequestParam("roomIsBooking") List<String> roomIsBooking, @RequestParam("typeRoomId")List<String> typeRoomId, @RequestParam("price")List<String> price,@RequestParam("check")Long check,@RequestParam("name")String name,@RequestParam("email")String email,@RequestParam("address")String address,@RequestParam("identityCard")String identityCard) {
         Date checkIn = bookingDetail.getCheckInExpected();
         Date checkOut = bookingDetail.getCheckOutExpected();
-        Customer customer = bookingDetail.getCustomer();
-
+        Customer customer= new Customer(identityCard,name,email,address);
         System.out.println(roomIsBooking.remove(""));
         System.out.println(price.remove(""));
         for(int i = 0; i<roomIsBooking.size(); i ++){
@@ -109,7 +110,9 @@ public class HomeController {
                     bookingDetailInLoop.setRoom(rooms.get(j));
                     bookingDetailInLoop.setCheckInExpected(checkIn);
                     bookingDetailInLoop.setCheckOutExpected(checkOut);
-                    bookingDetailInLoop.setCustomer(customer);
+                    List<Customer> customerList = bookingDetailInLoop.getCustomers();
+                    customerList.add(customer);
+                    bookingDetailInLoop.setCustomers(customerList);
                     bookingDetails.add(bookingDetailInLoop);
                 }
             }else {
@@ -118,24 +121,43 @@ public class HomeController {
         }
         booking.setCreateTime();
         booking.setCustomer(customer);
+//        billService.save(new Bill(booking));
         bookingService.save(booking);
         List<Booking> bookings= bookingService.findCreateTime();
+
+        billService.saveBillQuery(bookings.get(0).getId(),customer.getId());
         List<Customer> customers = customerService.findAllByQuery();
         for(BookingDetail b : bookingDetails){
             bookingDetailService.saveByQuery(checkIn,checkOut,customers.get(0).getId(),b.getRoom().getId(),bookings.get(0).getId(),b.getPrice());
+            System.out.println(bookingDetailService.findIdBigger().get(0).getId());
+//            customerService.updateDetailByQuery(bookingDetailService.findIdBigger().get(0).getId(),customer.getId());
+            customer.setBookingDetail(bookingDetailService.findById(bookingDetailService.findIdBigger().get(0).getId()));
+            customerService.save(customer);
         }
-        ModelAndView modelAndView = new ModelAndView("admin/createBooking", "bookingDetail", bookingDetail);
-        modelAndView.addObject("roomIsBooking",roomIsBooking);
-        modelAndView.addObject("typeRoomId",typeRoomId);
-        modelAndView.addObject("message","Created Booking");
-
+        if(check == 0){
+            ModelAndView modelAndView = new ModelAndView("admin/createBooking", "bookingDetail", bookingDetail);
+            modelAndView.addObject("roomIsBooking",roomIsBooking);
+            modelAndView.addObject("typeRoomId",typeRoomId);
+            modelAndView.addObject("message","Created Booking");
+            return modelAndView;
+        }
+        Iterable<TypeRoom> listRoom = typeRoomService.findAll();
+        ModelAndView modelAndView = new ModelAndView("home", "listRoom", listRoom);
+        modelAndView.addObject("rooms", roomService.findAll());
+        modelAndView.addObject("booking", new BookingDetail());
+        modelAndView.addObject("typeRooms",typeRoomService.findAll());
+        modelAndView.addObject("bookingDetail", new BookingDetail(new Customer()));
         return modelAndView;
+
+
     }
 
 
     @GetMapping("/create")
     public ModelAndView showCreate() {
-        return new ModelAndView("/admin/createBooking", "bookingDetail", new BookingDetail(new Customer()));
+        BookingDetail bookingDetail = new BookingDetail(new Customer());
+        System.out.println(bookingDetail);
+        return new ModelAndView("/admin/createBooking", "bookingDetail", bookingDetail);
 //        select * from hotel.rooms as r inner join hotel.bookings as b on r.idRoom=b.room_id
 //        where (b.checkinExpected >'2019-12-21' and b.checkOutExpected>'2019-12-22')
 //        or (b.checkInExpected< '2019-12-22' and b.checkOutExpected<'2019-12-21')
@@ -171,12 +193,18 @@ public class HomeController {
         List<Room> rooms = (List<Room>) roomService.checkTypeRoom(Date.valueOf(LocalDate.now()), Date.valueOf(formatter.format(date.getTime()+86400000)), roomService.findById(id).getTypeRoom().getId());
         rooms.add(roomService.findById(id));
         BookingDetail bookingToday =  bookingDetailService.findBookingToday(Date.valueOf(LocalDate.now()),Date.valueOf(formatter.format(date.getTime()+86400000)),id);
+        bookingToday.setCustomers(customerService.findByBookingDetail(bookingToday));
         ModelAndView modelAndView = new ModelAndView("admin/editBookingDetail","bookingToDay",bookingToday);
         modelAndView.addObject("rooms",rooms);
         return modelAndView;
     }
     @PostMapping("edit-booking")
-    public ModelAndView editBooking(@ModelAttribute("bookingToDay")BookingDetail bookingToDay){
+    public ModelAndView editBooking(@ModelAttribute("bookingToDay")BookingDetail bookingToDay,@RequestParam("name1")String[] name,@RequestParam("identityCard1")String[] identityCard,@RequestParam("address1")String[] address,@RequestParam("email1")String[] email){
+        for (int i =0; i<name.length;i++){
+           Customer customerInLoop= new Customer(identityCard[i],name[i],email[i],address[i]);
+           customerInLoop.setBookingDetail(bookingToDay);
+           customerService.save(customerInLoop);
+        }
         Booking booking =bookingService.findBookingByBookingDetailId(bookingToDay.getId());
         bookingToDay.setBooking(booking);
         bookingDetailService.save(bookingToDay);
@@ -194,49 +222,52 @@ public class HomeController {
     @GetMapping("bookingToday/{id}")
     public ModelAndView showCheckOut(@PathVariable("id") Long id){
         Booking booking = bookingService.findById(id);
-        if(booking.getBill()==null) {
-            billService.save(new Bill());
-            List<Bill> bills = billService.findBillBigger();
-            booking.setBill(bills.get(0));
-        }
-        List<Long> numberDateStay = new ArrayList<>();
+//        else {
+//            List<Long> numberDateStay = new ArrayList<>();
+//            for (BookingDetail bookingDetail: booking.getBookingDetailSet()) {
+//                numberDateStay.add(bookingDetail.getNumberDate());
+//
+//            }
+//            ModelAndView modelAndView = new ModelAndView("admin/BookingInDay","booking",booking);
+//            modelAndView.addObject("products", productService.findAll());
+//            modelAndView.addObject("bill",booking.getBill());
+//            modelAndView.addObject("numberDateStay",numberDateStay);
+//            return modelAndView;
+//        }
         booking.setTotal(0L);
-        Customer customer = null;
+        List<Customer> customer = new ArrayList<>();
+        //tính ngày ở tổng tiền phòng
         for (BookingDetail bookingDetail : booking.getBookingDetailSet()) {
-            Long totalBookingDetail;
             LocalDate dateNow = LocalDate.parse(LocalDate.now().toString(), DateTimeFormatter.ISO_LOCAL_DATE);
             LocalDate dateCheckIn = LocalDate.parse(bookingDetail.getCheckInExpected().toString(), DateTimeFormatter.ISO_LOCAL_DATE);
-            if(bookingDetail.getCheckOut()==null) {
-                bookingDetail.setCheckOut(Date.valueOf(LocalDate.now()));
+            bookingDetail.setCheckOutExpected(Date.valueOf(LocalDate.now()));
+            //nếu ngày ở chưa có, thì tính toán ngày ở
+            if(bookingDetail.getNumberDate()==null) {
+//                bookingDetail.setCheckOut(Date.valueOf(LocalDate.now()));
                 //System.out.println(dateNow);
                 //System.out.println(dateCheckIn);
+                //tính ra ngày ở
                 Duration diffInLoop = Duration.between(dateNow.atStartOfDay(), dateCheckIn.atStartOfDay());
                 //System.out.println(diffInLoop.toDays());
                 //System.out.println(diffInLoop);
                 bookingDetail.setNumberDate((diffInLoop.toDays()+1));
                 bookingDetail.setTotal(bookingDetail.getPrice()*bookingDetail.getNumberDate());
                 booking.setTotal(booking.getTotal()+bookingDetail.getTotal());
+                bookingDetail.setCustomers(customerService.findByBookingDetail(bookingDetail));
                 bookingDetailService.save(bookingDetail);
-                customer = bookingDetail.getCustomer();
-            }else {
-                LocalDate dateCheckOut = LocalDate.parse(bookingDetail.getCheckOutExpected().toString(), DateTimeFormatter.ISO_LOCAL_DATE);
-                Duration duration = Duration.between(dateCheckIn.atStartOfDay(),dateCheckOut.atStartOfDay());
-                bookingDetail.setNumberDate(duration.toDays()+1);
-                bookingDetail.setTotal(bookingDetail.getPrice()*bookingDetail.getNumberDate());
-                booking.setTotal(booking.getTotal()+bookingDetail.getTotal());
-                bookingDetailService.save(bookingDetail);
-                customer = bookingDetail.getCustomer();
+                booking.getBill().setPriceRoom(booking.getTotal());
+                booking.getBill().setCustomer(booking.getCustomer());
+                booking.getBill().setNumberRoom((long) booking.getBookingDetailSet().size());
+                billService.save(booking.getBill());
+                bookingService.save(booking);
             }
+
         }
-        booking.getBill().setPriceRoom(booking.getTotal());
-        booking.getBill().setCustomer(customer);
-        booking.getBill().setNumberRoom((long) booking.getBookingDetailSet().size());
-        billService.save(booking.getBill());
-        bookingService.save(booking);
+        Bill bill = booking.getBill();
         ModelAndView modelAndView = new ModelAndView("admin/BookingInDay","booking",booking);
+        modelAndView.addObject("customer",customer);
         modelAndView.addObject("products", productService.findAll());
-        modelAndView.addObject("numberDateStay",numberDateStay);
-        modelAndView.addObject("bill",booking.getBill());
+        modelAndView.addObject("bill",bill);
         return modelAndView;
     }
     @PostMapping("/create-bill")
@@ -293,6 +324,8 @@ public class HomeController {
     public ModelAndView showBill(){
         List<Bill> bills= (List<Bill>) billService.findAll();
         List<Bill> billPayed = new ArrayList<>();
+
+
         for (Bill bill : bills) {
             if(bill.isStatus()){
                 billPayed.add(bill);
@@ -313,4 +346,5 @@ public class HomeController {
         Booking booking = bookingService.findBookingByCustomerIdentityCard(search);
         return new ModelAndView("admin/resultSearch","booking",booking);
     }
+
 }

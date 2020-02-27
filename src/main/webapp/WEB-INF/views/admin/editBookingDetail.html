@@ -3,37 +3,41 @@
 <head th:replace="/admin/layout::head">
 <body>
 
-<h1>Edit Room</h1>
+
 <div id="wrapper">
     <ul th:replace="/admin/layout::sideBar"></ul>
     <div id="content-wrapper" class="d-flex flex-column">
         <div th:replace="/admin/layout::navBar"></div>
         <div class="card-body">
-
+            <h1>Edit Room</h1>
             </p>
             <th:block th:if="${message}">
                 <p th:text="${message}"></p>
             </th:block>
             <form th:action="@{/edit-booking}" th:object="${bookingToDay}" method="post">
                 <input th:type="hidden" name="id" th:field="*{id}">
+                <input th:type="hidden" id="size" th:value="${bookingToDay.getCustomers().size()}">
 
                 <table>
+                    <th:block th:each="customer,iter  : ${bookingToDay.getCustomers()}">
+                        <tr><td th:text="${'Customer '+(iter.index+1)}"></td> </tr>
                     <tr>
                         <td>Name:</td>
-                        <td><input type="text" th:field="*{customer.name}" required/></td>
+                        <td><input type="text" name="name" th:value="${customer.name}" required/></td>
                     </tr>
                     <tr>
                         <td>Address:</td>
-                        <td><input type="text" th:field="*{customer.address}" required/></td>
+                        <td><input type="text" name ="address" th:value="${customer.address}" required/></td>
                     </tr>
                     <tr>
                         <td>ID Card:</td>
-                        <td><input type="text" th:field="*{customer.identityCard}" required/></td>
+                        <td><input type="text" name="identityCard" th:value="${customer.identityCard}" required/></td>
                     </tr>
                     <tr>
                         <td>Email :</td>
-                        <td><input type="text" th:field="*{customer.email}"/></td>
+                        <td><input type="text" name="email" th:value="${customer.email}"/></td>
                     </tr>
+                    </th:block>
                     <tr>
                         <td>Check In:</td>
                         <td><input type="date" id="checkIn" th:field="*{checkInExpected}" required/></td>
@@ -65,12 +69,36 @@
                         <td><input type="submit" onclick="return validateOffEdit();" value="Update province"></td>
                     </tr>
                 </table>
+                <table>
+                    <tr><input type="submit" value="Add Customer" onclick="drawFormCustomer()"></tr>
+                    <tbody id="formCustomer"></tbody>
+                </table>
             </form>
         </div>
     </div>
 </div>
 </body>
 <script>
+    let count  =  document.getElementById("size").value;
+    drawFormCustomer = function(){
+        let txt = "<tr>Customer"+(count++)+"</tr><tr>\n" +
+            "                        <td>Name:</td>\n" +
+            "                        <td><input type=\"text\" name=\"name1\" required/></td>\n" +
+            "                    </tr>\n" +
+            "                    <tr>\n" +
+            "                        <td>Address:</td>\n" +
+            "                        <td><input type=\"text\" name =\"address1\" required/></td>\n" +
+            "                    </tr>\n" +
+            "                    <tr>\n" +
+            "                        <td>ID Card:</td>\n" +
+            "                        <td><input type=\"text\" name=\"identityCard1\" required/></td>\n" +
+            "                    </tr>\n" +
+            "                    <tr>\n" +
+            "                        <td>Email :</td>\n" +
+            "                        <td><input type=\"text\" name=\"email1\" /></td>\n" +
+            "                    </tr>";
+        document.getElementById("formCustomer").innerHTML += txt;
+    };
     user.roomIsTypeRoom = function (checkIn, checkOut, id) {
         $.ajax({
             url: 'http://localhost:8080/rooms/' + checkIn + '/' + checkOut + '/' + id,

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "bookingDetails")
@@ -37,35 +39,32 @@ public class BookingDetail {
         this.numberDate = numberDate;
     }
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne
     @JoinColumn(name = "room_id")
     private Room room;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="booking_id")
-    @JsonBackReference
-    @JsonIgnore
     private Booking booking;
     public Booking getBooking() {
         return booking;
     }
-    public BookingDetail(Date checkInExpected, Date checkOutExpected, Room room, Booking booking, Customer customer) {
+    public BookingDetail(Date checkInExpected, Date checkOutExpected, Room room, Booking booking, List<Customer> customer) {
         this.checkInExpected = checkInExpected;
         this.checkOutExpected = checkOutExpected;
         this.room = room;
         this.booking = booking;
-        this.customer = customer;
+        this.customers = customer;
     }
     public void setBooking(Booking booking) {
         this.booking = booking;
     }
 
-    @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    @OneToMany(mappedBy = "bookingDetail")
+    private List<Customer> customers =new ArrayList<Customer>();;
 
-    public BookingDetail(Customer customer) {
-        this.customer = customer;
+    public BookingDetail(List<Customer> customer) {
+        this.customers = customer;
     }
 
     public Long getPrice() {
@@ -116,12 +115,12 @@ public class BookingDetail {
         this.checkOut = checkOut;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public List<Customer> getCustomers() {
+        return customers;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
     }
 
     public Room getRoom() {
@@ -146,39 +145,43 @@ public class BookingDetail {
 
 
 
-
-    public BookingDetail(){}
+    public BookingDetail(Customer customer){
+       this.customers = new ArrayList<Customer>();
+        this.customers.add(customer);
+    }
+    public BookingDetail(){
+    }
     public BookingDetail(Date checkInExpected, Date checkOutExpected, Room room) {
         this.checkInExpected = checkInExpected;
         this.checkOutExpected = checkOutExpected;
         this.room = room;
     }
 
-    public BookingDetail(Date checkInExpected, Date checkOutExpected, Date checkIn, Date checkOut, Customer customer, Room room) {
+    public BookingDetail(Date checkInExpected, Date checkOutExpected, Date checkIn, Date checkOut, List<Customer> customer, Room room) {
         this.checkInExpected = checkInExpected;
         this.checkOutExpected = checkOutExpected;
         this.checkIn = checkIn;
         this.checkOut = checkOut;
-        this.customer = customer;
+        this.customers = customer;
         this.room = room;
     }
 
-    public BookingDetail(Date checkInExpected, Date checkOutExpected, Long price, Room room, Customer customer) {
+    public BookingDetail(Date checkInExpected, Date checkOutExpected, Long price, Room room, List<Customer> customer) {
         this.checkInExpected = checkInExpected;
         this.checkOutExpected = checkOutExpected;
         this.price = price;
         this.room = room;
-        this.customer = customer;
+        this.customers = customer;
     }
 
-    public BookingDetail(Long id, Date checkInExpected, Date checkOutExpected, Date checkIn, Date checkOut, Long price, Customer customer) {
+    public BookingDetail(Long id, Date checkInExpected, Date checkOutExpected, Date checkIn, Date checkOut, Long price, List<Customer> customer) {
         this.id = id;
         this.checkInExpected = checkInExpected;
         this.checkOutExpected = checkOutExpected;
         this.checkIn = checkIn;
         this.checkOut = checkOut;
         this.price = price;
-        this.customer = customer;
+        this.customers = customer;
 
     }
 }
